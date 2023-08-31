@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.board.mvc.util.fileupload.mappers.FileMapper">
+
+    <insert id = "registFile">
+
+        insert into tbl_board_file(uuid, fileName, bno, ord) values
+        <foreach collection = "list" item = "item" separator = ",">
+          (#{item.uuid}, #{item.fileName}, #{item.bno}, #{item.ord})
+        </foreach>
+    </insert>
+
+
+    <update id = "removeFile">
+      update tbl_board_file set isDeleted = true where bno = #{bno}
+    </update>
+
+
+</mapper>
