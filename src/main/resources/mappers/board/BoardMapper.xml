@@ -28,7 +28,6 @@
         select tb.bno, tb.writer, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, concat(tbi.uuid, tbi.fileName) as fileNames
             from tbl_board tb left outer join tbl_board_file  tbi on tb.bno = tbi.bno
                 where tb.isDeleted = false 
-                      and tbi.isDeleted = false
                       and tb.bno = #{bno}
     </select>
 
