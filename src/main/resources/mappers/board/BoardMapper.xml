@@ -50,7 +50,7 @@
     <!-- 게시판 List -->
     <select id = "getBoardList" resultType = "org.board.mvc.noticeboard.dto.ListBoardDTO">
 
-        select tb.bno, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, tb.writer, tbf.fileName
+        select tb.bno, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, tb.writer, concat(tbf.uuid, tbf.fileName) as fileName
         from tbl_board tb left outer join tbl_board_file tbf on tb.bno = tbf.bno
         where tb.isDeleted = false and (tbf.ord = 0 or tbf.ord is null) 
 
@@ -83,7 +83,7 @@
         select count(*)
         from
         (
-            select tb.bno, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, tb.writer, tbf.fileName
+            select tb.bno, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, tb.writer, concat(tbf.uuid, tbf.fileName) as fileName
             from tbl_board tb left outer join tbl_board_file tbf on tb.bno = tbf.bno
             where tb.isDeleted = false and (tbf.ord = 0 or tbf.ord is null) 
 

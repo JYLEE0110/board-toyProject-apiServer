@@ -1,8 +1,11 @@
 package org.board.mvc.noticeboard.restcontroller;
 
+import org.board.mvc.noticeboard.dto.ListBoardDTO;
 import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.service.BoardService;
+import org.board.mvc.util.page.PageRequestDTO;
+import org.board.mvc.util.page.PageResponseDTO;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,6 +69,14 @@ public class BoardRestController {
 
         return boardService.readOneBoard(bno);
 
+    }
+
+    // 게시판 리스트
+    @GetMapping("/list")
+    public PageResponseDTO<ListBoardDTO> getBoardList(
+        PageRequestDTO pageRequestDTO
+    ){
+        return boardService.getBoardList(pageRequestDTO);
     }
 
 }
