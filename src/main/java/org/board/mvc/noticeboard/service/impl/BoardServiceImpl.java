@@ -5,11 +5,14 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.board.mvc.noticeboard.dto.ListBoardDTO;
 import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.mappers.BoardMapper;
 import org.board.mvc.noticeboard.service.BoardService;
 import org.board.mvc.util.fileupload.mappers.FileMapper;
+import org.board.mvc.util.page.PageRequestDTO;
+import org.board.mvc.util.page.PageResponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,6 +75,22 @@ public class BoardServiceImpl implements BoardService {
     public ReadBoardDTO readOneBoard(Long bno) {
 
         return boardMapper.readOneBoard(bno);
+
+    }
+
+    @Override
+    public PageResponseDTO<ListBoardDTO> getBoardList(PageRequestDTO pageRequestDTO) {
+
+        // mapper에서 추출한 list 
+        List<ListBoardDTO> list = boardMapper.getBoardList(pageRequestDTO);
+        // mapper에서 추출한 total 값
+        int total = boardMapper.boardCnt(pageRequestDTO);
+
+        return PageResponseDTO.<ListBoardDTO>withAll()
+                .list(list)
+                .total(total)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
 
     }
 

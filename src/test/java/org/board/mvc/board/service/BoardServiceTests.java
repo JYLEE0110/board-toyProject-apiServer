@@ -3,11 +3,14 @@ package org.board.mvc.board.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.board.mvc.noticeboard.dto.ListBoardDTO;
 import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.mappers.BoardMapper;
 import org.board.mvc.noticeboard.service.BoardService;
 import org.board.mvc.util.fileupload.mappers.FileMapper;
+import org.board.mvc.util.page.PageRequestDTO;
+import org.board.mvc.util.page.PageResponseDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +38,7 @@ public class BoardServiceTests {
 
     // BeforeEach를 사용 하기 위한 DTO들 정의
     private RegistBoardDTO registBoardDTO;
+    private PageRequestDTO pageRequestDTO;
 
     // 테스트 코드가 돌아가기 전 수행
     @BeforeEach
@@ -47,6 +51,8 @@ public class BoardServiceTests {
                 .fileNames(List.of(UUID.randomUUID() + "_" + JUNIT_TEST_FILENAME1,
                         UUID.randomUUID() + "_" + JUNIT_TEST_FILENAME2))
                 .build();
+
+        pageRequestDTO = PageRequestDTO.builder().build();
     }
 
     @Test
@@ -97,6 +103,20 @@ public class BoardServiceTests {
         // THEN
         Assertions.assertNotNull(result);
         log.info("=========End ReadOneBoard Service Test===========");
+
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("게시판 리스트 페이징 서비스 테스트")
+    public void getBoardList(){
+
+        // GIVEN
+        log.info("=========Start GetBoardList Service Test==========");
+
+        // WHEN
+        PageResponseDTO<ListBoardDTO> result = boardService.getBoardList(pageRequestDTO);
+        log.info(result);
 
     }
 
