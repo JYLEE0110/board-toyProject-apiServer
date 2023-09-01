@@ -1,8 +1,10 @@
 package org.board.mvc.noticeboard.restcontroller;
 
+import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.service.BoardService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,11 +26,11 @@ public class BoardRestController {
     private final BoardService boardService;
 
     // 게시판 등록
-    @PostMapping("/regist")
+    @PostMapping("")
     public Long registBoard(@RequestBody RegistBoardDTO registBoardDTO) {
 
         log.info("=======================");
-        log.info("POST | /api/board/regist");
+        log.info("POST | /api/board");
         log.info(registBoardDTO);
         log.info("=======================");
 
@@ -39,17 +41,31 @@ public class BoardRestController {
     }
 
     // 게시판 삭제
-    @PutMapping("/remove/{bno}")
+    @PutMapping("/{bno}")
     public Long removeBoard(
             @PathVariable("bno") Long bno) {
 
         log.info("=======================");
-        log.info("POST | /api/board/remove/", bno);
+        log.info("POST | /api/board/", bno);
         log.info("=======================");
 
         boardService.removeBoard(bno);
 
         return bno;
+    }
+
+    // 게시판 상세 조회
+    @GetMapping("/{bno}")
+    public ReadBoardDTO readOneBoard(
+        @PathVariable("bno") Long bno
+    ){
+
+        log.info("====================");
+        log.info("Get | /api/board/",bno);
+        log.info("====================");
+
+        return boardService.readOneBoard(bno);
+
     }
 
 }

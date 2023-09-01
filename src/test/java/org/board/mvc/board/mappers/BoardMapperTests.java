@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.mappers.BoardMapper;
 import org.board.mvc.util.fileupload.dto.FileUploadDTO;
@@ -121,6 +122,24 @@ public class BoardMapperTests {
         Assertions.assertNotEquals(resultRemoveBoard, 0);
         Assertions.assertNotEquals(resultRemoveFile, 0);
         log.info("========== END Remove Board Mapper Test ============");
+
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("게시판 상세 정보 테스트")
+    public void readOneBoard(){
+
+        // GIVEN
+        log.info("========Start ReadOneBoard Mapper Test=========");
+
+        // WHEN
+        ReadBoardDTO result = boardMapper.readOneBoard(15L);
+        log.info(result);
+
+        // THEN
+        Assertions.assertNotNull(result);
+        log.info("==========END ReadOneBoard Mapper Test============");
 
     }
 

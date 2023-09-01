@@ -3,6 +3,7 @@ package org.board.mvc.board.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.mappers.BoardMapper;
 import org.board.mvc.noticeboard.service.BoardService;
@@ -66,6 +67,7 @@ public class BoardServiceTests {
     }
 
     @Test
+    @Transactional
     @DisplayName("게시판 삭제 서비스 테스트")
     public void removeBoard(){
 
@@ -77,6 +79,24 @@ public class BoardServiceTests {
 
         // THEN
         log.info("===========End Remove Board Service Test===========");
+
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("게시판 상세 조회 서비스 테스트")
+    public void readOneBoard(){
+
+        // GIVEN
+        log.info("=========Start ReadOneBoard Service Test===========");
+
+        // WHEN
+        ReadBoardDTO result = boardService.readOneBoard(15L);
+        log.info(result);
+
+        // THEN
+        Assertions.assertNotNull(result);
+        log.info("=========End ReadOneBoard Service Test===========");
 
     }
 

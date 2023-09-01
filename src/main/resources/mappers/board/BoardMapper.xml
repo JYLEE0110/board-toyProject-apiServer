@@ -23,4 +23,29 @@
     </update>
     <!-- 게시판 삭제 END -->
 
+    <!-- 게시판 상세 조회 -->
+    <select id = "readOneBoard" resultMap = "readOneBoardMap">
+        select tb.bno, tb.writer, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, concat(tbi.uuid, tbi.fileName) as fileNames
+            from tbl_board tb left outer join tbl_board_file  tbi on tb.bno = tbi.bno
+                where tb.isDeleted = false 
+                      and tbi.isDeleted = false
+                      and tb.bno = #{bno}
+    </select>
+
+    <resultMap type = "string" id = "readOneBoardFileMap">
+        <result column = "fileNames"/>
+    </resultMap>
+
+    <resultMap id = "readOneBoardMap" type ="org.board.mvc.noticeboard.dto.ReadBoardDTO">
+        <id property = "bno" column = "bno"/>
+        <result property = "writer" column="writer"/>
+        <result property = "boardTitle" column="boardTitle"/>
+        <result property = "boardContent" column="boardContent"/>
+        <result property = "regDate" column="regDate"/>
+        <result property = "modDate" column="modDate"/>
+        <collection property="fileNames" resultMap = "readOneBoardFileMap"/>
+    </resultMap>
+
+    <!-- 게시판 상세 조회  END-->
+
 </mapper>

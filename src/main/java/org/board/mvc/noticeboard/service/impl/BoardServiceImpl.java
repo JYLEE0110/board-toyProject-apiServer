@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.mappers.BoardMapper;
 import org.board.mvc.noticeboard.service.BoardService;
@@ -53,13 +54,24 @@ public class BoardServiceImpl implements BoardService {
         return bno;
     }
 
+    // 게시판 삭제
     @Override
     public Long removeBoard(Long bno) {
 
+        // 게시판 삭제
         boardMapper.removeBoard(bno);
+        // 게시판에 포함된 파일 삭제
         fileMapper.removeFile(bno);
 
         return bno;
+
+    }
+
+    // 게시판 상세 조회
+    @Override
+    public ReadBoardDTO readOneBoard(Long bno) {
+
+        return boardMapper.readOneBoard(bno);
 
     }
 
