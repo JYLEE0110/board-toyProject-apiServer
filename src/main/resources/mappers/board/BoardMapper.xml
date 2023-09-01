@@ -25,10 +25,10 @@
 
     <!-- 게시판 상세 조회 -->
     <select id = "readOneBoard" resultMap = "readOneBoardMap">
-        select tb.bno, tb.writer, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, concat(tbi.uuid, tbi.fileName) as fileNames
-            from tbl_board tb left outer join tbl_board_file  tbi on tb.bno = tbi.bno
-                where tb.isDeleted = false 
-                      and tb.bno = #{bno}
+        select tb.bno, tb.writer, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, concat(tbf.uuid, tbf.fileName) as fileNames
+        from tbl_board tb left outer join tbl_board_file  tbf on tb.bno = tbf.bno
+        where tb.isDeleted = false 
+            and tb.bno = #{bno}
     </select>
 
     <resultMap type = "string" id = "readOneBoardFileMap">
@@ -46,5 +46,67 @@
     </resultMap>
 
     <!-- 게시판 상세 조회  END-->
+
+    <!-- 게시판 List -->
+    <select id = "getBoardList" resultType = "org.board.mvc.noticeboard.dto.ListBoardDTO">
+
+        select tb.bno, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, tb.writer, tbf.fileName
+        from tbl_board tb left outer join tbl_board_file tbf on tb.bno = tbf.bno
+        where tb.isDeleted = false and (tbf.ord = 0 or tbf.ord is null) 
+
+        <if test = "keyword != null and types != null">
+            <trim prefix="and (" prefixOverrides="or" suffix=")">
+                <foreach collection = "types" item = "type" separator = "or">
+                    <if test = 'type == "t"'>
+                        tb.boardTitle like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test = 'type == "c"'>
+                        tb.boardContent like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test = 'type == "w"'>
+                        tb.writer like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+            </trim>
+        </if>
+        
+        order by tb.bno desc
+        limit #{skip}, #{size}
+
+    </select>
+    <!-- 게시판 List END -->
+
+    <!-- 페이징 total을 위한 count  -->
+
+    <select id ="boardCnt">
+
+        select count(*)
+        from
+        (
+            select tb.bno, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, tb.writer, tbf.fileName
+            from tbl_board tb left outer join tbl_board_file tbf on tb.bno = tbf.bno
+            where tb.isDeleted = false and (tbf.ord = 0 or tbf.ord is null) 
+
+            <if test = "keyword != null and types != null">
+                <trim prefix="and (" prefixOverrides="or" suffix=")">
+                    <foreach collection = "types" item = "type" separator = "or">
+                        <if test = 'type == "t"'>
+                            tb.boardTitle like concat('%', #{keyword}, '%')
+                        </if>
+                        <if test = 'type == "c"'>
+                            tb.boardContent like concat('%', #{keyword}, '%')
+                        </if>
+                        <if test = 'type == "w"'>
+                            tb.writer like concat('%', #{keyword}, '%')
+                        </if>
+                    </foreach>
+                </trim>
+            </if>
+            limit #{countEnd}) boardCnt
+
+    </select>
+
+    <!-- 페이징 total을 위한 count END  -->
+
 
 </mapper>

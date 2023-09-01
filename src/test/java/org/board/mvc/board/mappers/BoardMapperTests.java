@@ -7,11 +7,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.board.mvc.noticeboard.dto.ListBoardDTO;
 import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.mappers.BoardMapper;
 import org.board.mvc.util.fileupload.dto.FileUploadDTO;
 import org.board.mvc.util.fileupload.mappers.FileMapper;
+import org.board.mvc.util.page.PageRequestDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,6 +46,7 @@ public class BoardMapperTests {
     // BeforeEach를 사용 하기 위한 DTO들 정의
     private RegistBoardDTO registBoardDTO;
     private FileUploadDTO fileUploadDTO;
+    private PageRequestDTO pageRequestDTO;
 
     // 테스트 코드가 돌아가기 전 수행
     @BeforeEach
@@ -55,11 +58,14 @@ public class BoardMapperTests {
                 .boardContent(JUNIT_TEST_CONTENT)
                 .fileNames(List.of(UUID.randomUUID() + "_" + JUNIT_TEST_FILENAME1, UUID.randomUUID() + "_" +JUNIT_TEST_FILENAME2))
                 .build();
+
+        pageRequestDTO = PageRequestDTO.builder()
+                .build();
     }
 
     @Test
     @Transactional
-    @DisplayName("게시판 작성 테스트")
+    @DisplayName("게시판 작성 매퍼 테스트")
     public void registBoard() {
 
         // GIVEN
@@ -107,7 +113,7 @@ public class BoardMapperTests {
 
     @Test
     @Transactional
-    @DisplayName("게시판 삭제 테스트")
+    @DisplayName("게시판 삭제 매퍼 테스트")
     public void removeBoardTest(){
 
         // GIVEN
@@ -127,7 +133,7 @@ public class BoardMapperTests {
 
     @Test
     @Transactional
-    @DisplayName("게시판 상세 정보 테스트")
+    @DisplayName("게시판 상세 정보 매퍼 테스트")
     public void readOneBoard(){
 
         // GIVEN
@@ -140,6 +146,36 @@ public class BoardMapperTests {
         // THEN
         Assertions.assertNotNull(result);
         log.info("==========END ReadOneBoard Mapper Test============");
+
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("게시판 리스트 매퍼 테스트")
+    public void getBoardList(){
+
+        // GIVEN
+        log.info("========== Start GetBoardList Mapper Test =============");
+        log.info(pageRequestDTO);
+
+        // WHEN
+        List<ListBoardDTO> result = boardMapper.getBoardList(pageRequestDTO);
+        log.info(result);
+
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("게시판 리스트 페이징 카운트 매퍼 테스트")
+    public void getBoardListCnt(){
+
+        // GIVEN
+        log.info("==============Start GetBoardListCnt Mapper Test ================");
+        log.info(pageRequestDTO.getCountEnd()); // 101 출력
+
+        // WHEN
+        int result = boardMapper.boardCnt(pageRequestDTO);
+        log.info(result); // countEnd가 101이지만 101 보다 작을 시 실제 값이 출력
 
     }
 
