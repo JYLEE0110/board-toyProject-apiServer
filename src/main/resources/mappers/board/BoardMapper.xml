@@ -25,7 +25,7 @@
 
     <!-- 게시판 상세 조회 -->
     <select id = "readOneBoard" resultMap = "readOneBoardMap">
-        select tb.bno, tb.writer, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, concat(tbf.uuid, tbf.fileName) as fileNames
+        select tb.bno, tb.writer, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, concat(tbf.uuid,'_' , tbf.fileName) as fileNames
         from tbl_board tb left outer join tbl_board_file  tbf on tb.bno = tbf.bno
         where tb.isDeleted = false 
             and tb.bno = #{bno}
@@ -50,7 +50,7 @@
     <!-- 게시판 List -->
     <select id = "getBoardList" resultType = "org.board.mvc.noticeboard.dto.ListBoardDTO">
 
-        select tb.bno, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, tb.writer, concat(tbf.uuid, tbf.fileName) as fileName
+        select tb.bno, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, tb.writer, concat(tbf.uuid, '_' , tbf.fileName) as fileName
         from tbl_board tb left outer join tbl_board_file tbf on tb.bno = tbf.bno
         where tb.isDeleted = false and (tbf.ord = 0 or tbf.ord is null) 
 
