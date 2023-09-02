@@ -25,6 +25,6 @@ public interface BoardService {
     PageResponseDTO<ListBoardDTO> getBoardList(PageRequestDTO pageRequestDTO);
 
     // 게시판 수정
-    Long modifyBoard(ModifyBoardDTO modifyBoardDTO);
+    Long modifyBoard(Long bno ,ModifyBoardDTO modifyBoardDTO);
     
 }

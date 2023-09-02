@@ -56,7 +56,6 @@ public class BoardServiceTests {
                 .build();
 
         modifyBoardDTO = ModifyBoardDTO.builder()
-                .bno(19L)
                 .writer(JUNIT_TEST_WRITER)
                 .boardTitle(JUNIT_TEST_TITLE)
                 .boardContent(JUNIT_TEST_CONTENT)

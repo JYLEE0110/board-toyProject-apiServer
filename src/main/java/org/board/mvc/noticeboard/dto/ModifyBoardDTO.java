@@ -15,7 +15,6 @@ import lombok.ToString;
 @ToString
 public class ModifyBoardDTO {
 
-    private Long bno;               // 게시판 번호
     private String writer;          // 작성자
     private String boardTitle;      // 게시판 제목
     private String boardContent;    // 게시판 내용

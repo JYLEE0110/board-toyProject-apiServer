@@ -1,6 +1,7 @@
 package org.board.mvc.noticeboard.restcontroller;
 
 import org.board.mvc.noticeboard.dto.ListBoardDTO;
+import org.board.mvc.noticeboard.dto.ModifyBoardDTO;
 import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.service.BoardService;
@@ -44,7 +45,7 @@ public class BoardRestController {
     }
 
     // 게시판 삭제
-    @PutMapping("/{bno}")
+    @PutMapping("/remove/{bno}")
     public Long removeBoard(
             @PathVariable("bno") Long bno) {
 
@@ -81,6 +82,17 @@ public class BoardRestController {
         log.info("=====================");
         
         return boardService.getBoardList(pageRequestDTO);
+    }
+
+    // 게시판 수정
+    @PutMapping("/modify/{bno}")
+    public Long modifyBoard(
+        @PathVariable("bno") Long bno,
+        @RequestBody ModifyBoardDTO modifyBoardDTO
+    ){
+       Long result =  boardService.modifyBoard(bno, modifyBoardDTO);
+
+       return result;
     }
 
 }

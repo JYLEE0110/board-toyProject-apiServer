@@ -62,7 +62,6 @@ public class BoardMapperTests {
                 .build();
         
         modifyBoardDTO = ModifyBoardDTO.builder()
-                .bno(19L)
                 .writer(JUNIT_TEST_WRITER)
                 .boardTitle(JUNIT_TEST_TITLE)
                 .boardContent(JUNIT_TEST_CONTENT)
@@ -189,7 +188,7 @@ public class BoardMapperTests {
     }
 
     @Test
-    @Transactional
+    // @Transactional
     @DisplayName("게시판 수정 매퍼 테스트")
     public void modifyBoard(){
 
@@ -198,7 +197,7 @@ public class BoardMapperTests {
         log.info(modifyBoardDTO);
 
         // WHEN
-        int result = boardMapper.modifyBoard(modifyBoardDTO);
+        int result = boardMapper.modifyBoard(19L,modifyBoardDTO);
 
         // THEN
         Assertions.assertEquals(1, result);

@@ -26,7 +26,7 @@ public interface BoardMapper {
     int boardCnt(PageRequestDTO pageRequestDTO);
 
     // 게시판 수정
-    int modifyBoard(ModifyBoardDTO modifyBoardDTO);
+    int modifyBoard(@Param("bno") Long bno, @Param("md")ModifyBoardDTO modifyBoardDTO);
 
 
 }

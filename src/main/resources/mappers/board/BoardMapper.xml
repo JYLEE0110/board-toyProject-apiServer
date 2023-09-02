@@ -27,7 +27,7 @@
     <select id = "readOneBoard" resultMap = "readOneBoardMap">
         select tb.bno, tb.writer, tb.boardTitle, tb.boardContent, tb.regDate, tb.modDate, concat(tbf.uuid,'_' , tbf.fileName) as fileNames
         from tbl_board tb left outer join tbl_board_file  tbf on tb.bno = tbf.bno
-        where tb.isDeleted = false 
+        where tb.isDeleted = false and tbf.isDeleted = false
             and tb.bno = #{bno}
     </select>
 
@@ -110,7 +110,7 @@
 
     <!-- 게시판 수정 -->
     <update id = "modifyBoard">
-        update tbl_board set writer = #{writer}, boardTitle = #{boardTitle}, boardContent = #{boardContent} 
+        update tbl_board set writer = #{md.writer}, boardTitle = #{md.boardTitle}, boardContent = #{md.boardContent} 
         where bno = #{bno}
     </update>
     <!-- 게시판 수정 END -->
