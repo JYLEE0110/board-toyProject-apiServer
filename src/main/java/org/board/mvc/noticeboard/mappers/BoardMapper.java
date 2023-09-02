@@ -2,7 +2,9 @@ package org.board.mvc.noticeboard.mappers;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.board.mvc.noticeboard.dto.ListBoardDTO;
+import org.board.mvc.noticeboard.dto.ModifyBoardDTO;
 import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.util.page.PageRequestDTO;
@@ -22,6 +24,9 @@ public interface BoardMapper {
     // 게시판 리스트
     List<ListBoardDTO> getBoardList(PageRequestDTO pageRequestDTO);
     int boardCnt(PageRequestDTO pageRequestDTO);
+
+    // 게시판 수정
+    int modifyBoard(ModifyBoardDTO modifyBoardDTO);
 
 
 }

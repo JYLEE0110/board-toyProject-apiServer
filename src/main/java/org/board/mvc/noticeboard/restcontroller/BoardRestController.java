@@ -76,6 +76,10 @@ public class BoardRestController {
     public PageResponseDTO<ListBoardDTO> getBoardList(
         PageRequestDTO pageRequestDTO
     ){
+        log.info("=====================");
+        log.info("GET | /api/board/list");
+        log.info("=====================");
+        
         return boardService.getBoardList(pageRequestDTO);
     }
 

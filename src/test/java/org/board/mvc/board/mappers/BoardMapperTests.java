@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.board.mvc.noticeboard.dto.ListBoardDTO;
+import org.board.mvc.noticeboard.dto.ModifyBoardDTO;
 import org.board.mvc.noticeboard.dto.ReadBoardDTO;
 import org.board.mvc.noticeboard.dto.RegistBoardDTO;
 import org.board.mvc.noticeboard.mappers.BoardMapper;
@@ -36,15 +37,16 @@ public class BoardMapperTests {
     private FileMapper fileMapper;
 
     // 테스트 코드가 돌아가기 전 메모리상에 static 상수로 먼저 올려 놓는다.
-    private static final String JUNIT_TEST_WRITER = "Junit_Test_Writer";
-    private static final String JUNIT_TEST_TITLE = "Junit_Test_Title";
-    private static final String JUNIT_TEST_CONTENT = "Junit_Test_Content";
+    private static final String JUNIT_TEST_WRITER = "Junit_Test_MWriter";
+    private static final String JUNIT_TEST_TITLE = "Junit_Test_MTitle";
+    private static final String JUNIT_TEST_CONTENT = "Junit_Test_MContent";
     // private static final String JUNIT_TEST_UUID = UUID.randomUUID().toString();
     private static final String JUNIT_TEST_FILENAME1 = "test1.jpg";
     private static final String JUNIT_TEST_FILENAME2 = "test2.jpg";
 
     // BeforeEach를 사용 하기 위한 DTO들 정의
     private RegistBoardDTO registBoardDTO;
+    private ModifyBoardDTO modifyBoardDTO;
     private FileUploadDTO fileUploadDTO;
     private PageRequestDTO pageRequestDTO;
 
@@ -57,6 +59,13 @@ public class BoardMapperTests {
                 .boardTitle(JUNIT_TEST_TITLE)
                 .boardContent(JUNIT_TEST_CONTENT)
                 .fileNames(List.of(UUID.randomUUID() + "_" + JUNIT_TEST_FILENAME1, UUID.randomUUID() + "_" +JUNIT_TEST_FILENAME2))
+                .build();
+        
+        modifyBoardDTO = ModifyBoardDTO.builder()
+                .bno(19L)
+                .writer(JUNIT_TEST_WRITER)
+                .boardTitle(JUNIT_TEST_TITLE)
+                .boardContent(JUNIT_TEST_CONTENT)
                 .build();
 
         pageRequestDTO = PageRequestDTO.builder()
@@ -176,6 +185,24 @@ public class BoardMapperTests {
         // WHEN
         int result = boardMapper.boardCnt(pageRequestDTO);
         log.info(result); // countEnd가 101이지만 101 보다 작을 시 실제 값이 출력
+
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("게시판 수정 매퍼 테스트")
+    public void modifyBoard(){
+
+        // GIVEN
+        log.info("=============Start ModifyBoard Mapper Test====================");
+        log.info(modifyBoardDTO);
+
+        // WHEN
+        int result = boardMapper.modifyBoard(modifyBoardDTO);
+
+        // THEN
+        Assertions.assertEquals(1, result);
+        log.info("====================END ModifyBoard Mapper Test=====================");
 
     }
 

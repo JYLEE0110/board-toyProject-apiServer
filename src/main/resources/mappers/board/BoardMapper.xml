@@ -108,5 +108,12 @@
 
     <!-- 페이징 total을 위한 count END  -->
 
+    <!-- 게시판 수정 -->
+    <update id = "modifyBoard">
+        update tbl_board set writer = #{writer}, boardTitle = #{boardTitle}, boardContent = #{boardContent} 
+        where bno = #{bno}
+    </update>
+    <!-- 게시판 수정 END -->
+
 
 </mapper>
