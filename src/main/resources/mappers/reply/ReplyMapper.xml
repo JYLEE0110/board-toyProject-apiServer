@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.board.mvc.reply.mappers.ReplyMapper">
+
+    <insert id ="registReply">
+        insert into tbl_reply(bno, writer, reply) values(#{bno}, #{rrd.writer}, #{rrd.reply})
+    
+    <selectKey resultType="long" keyProperty="rno" order="AFTER">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    
+    </insert>
+
+    <update id ="updateGno">
+        update tbl_reply set gno = #{rno} where rno = #{rno}
+    </update>
+
+</mapper>

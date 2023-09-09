@@ -17,6 +17,8 @@ import lombok.ToString;
 public class ReplyDTO {
 
     private Long rno;               // 댓글 번호
+    private Long bno;               // 해당 게시물 번호
+    private Long gno;               // 댓글 대댓글 구분 그룹번호
     private String wirter;          // 작성자
     private String reply;           // 댓글
     private Boolean isDeleted;      // 삭제 여부
