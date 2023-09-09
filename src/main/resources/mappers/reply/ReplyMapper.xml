@@ -5,10 +5,11 @@
 
 <mapper namespace="org.board.mvc.reply.mappers.ReplyMapper">
 
+    <!-- 댓글 등록 -->
     <insert id ="registReply">
         insert into tbl_reply(bno, writer, reply) values(#{bno}, #{rrd.writer}, #{rrd.reply})
     
-    <selectKey resultType="long" keyProperty="rno" order="AFTER">
+    <selectKey resultType="long" keyProperty="rrd.rno" order="AFTER">
         SELECT LAST_INSERT_ID()
     </selectKey>
     
@@ -17,5 +18,15 @@
     <update id ="updateGno">
         update tbl_reply set gno = #{rno} where rno = #{rno}
     </update>
+    <!-- 댓글 등록 -->
+
+    <!-- 대 댓글 등록 -->
+    <insert id ="registChildReply">
+        insert into tbl_reply(bno, gno, writer, reply) values (#{bno}, #{rrd.gno}, #{rrd.writer}, #{rrd.reply})
+    <selectKey resultType="long" keyProperty="rrd.rno" order="AFTER">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    </insert>
+    <!-- 대 댓글 등록 -->
 
 </mapper>
